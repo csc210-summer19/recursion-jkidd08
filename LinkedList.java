@@ -106,8 +106,13 @@ public class LinkedList<E extends Comparable<E>> {
 	}
 
 	private E get(Node ref, int startIndex, int stopIndex) {
-		// TODO: Complete this method using recursion, no loop allowed.
-		return null;
+		if (startIndex == stopIndex) {
+			System.out.println("start: " + startIndex + "stop: " + stopIndex);
+			System.out.println("ref: " + ref.toString());
+			return ref.data;
+		} else { 
+			return get(ref.next, startIndex + 1, stopIndex);
+		}
 	}
 
 	// Complete method removeAll(E el) so all elements that
@@ -115,6 +120,20 @@ public class LinkedList<E extends Comparable<E>> {
 	public void removeAll(E el) {
 		// This public method requires a call to a private helper method
 		// with first as an argument. It must be recursive, no loop allowed.
+		removeAll(first, el);
+	}
+	
+	private void removeAll(Node ref, E el) {
+		if (ref.data.equals(el)) {
+			// remove this
+		}
+		
+		if (ref.next == null) {
+			return;
+		} else {
+			removeAll(ref.next, el);
+		}
+
 	}
 
 	// Duplicate el next to each occurrence of el in this list.
