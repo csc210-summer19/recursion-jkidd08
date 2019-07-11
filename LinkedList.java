@@ -107,8 +107,6 @@ public class LinkedList<E extends Comparable<E>> {
 
 	private E get(Node ref, int startIndex, int stopIndex) {
 		if (startIndex == stopIndex) {
-			System.out.println("start: " + startIndex + "stop: " + stopIndex);
-			System.out.println("ref: " + ref.toString());
 			return ref.data;
 		} else { 
 			return get(ref.next, startIndex + 1, stopIndex);
@@ -124,15 +122,16 @@ public class LinkedList<E extends Comparable<E>> {
 	}
 	
 	private void removeAll(Node ref, E el) {
-		if (ref.data.equals(el)) {
-			// remove this
+//		System.out.println("Node = [value: " + ref.data + ", " + ref.next + "]");
+		if (ref != null) {
+			System.out.println("Node = [value: " + ref.data + "]");
+			if (ref.data == el) {
+				ref = ref.next;
+			} else {
+				removeAll(ref.next, el);
+			}
 		}
 		
-		if (ref.next == null) {
-			return;
-		} else {
-			removeAll(ref.next, el);
-		}
 
 	}
 
@@ -140,6 +139,21 @@ public class LinkedList<E extends Comparable<E>> {
 	public void duplicateAll(E el) {
 		// This public method requires a call to a private helper method
 		// with first as an argument. It must be recursive, no loop allowed.
+		duplicateAll(first, el);
+		
+	}
+	
+	private void duplicateAll(Node ref, E el) {
+		if (ref != null) {
+			if (ref.data == el) {
+				Node temp = ref.next;
+				ref.next = new Node(el);
+				ref.next.next = temp;
+				ref = ref.next;
+				n++;
+			}
+			duplicateAll(ref.next, el);
+		}
 	}
 
 }
