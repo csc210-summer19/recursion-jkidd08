@@ -120,56 +120,25 @@ public class LinkedList<E extends Comparable<E>> {
 		// with first as an argument. It must be recursive, no loop allowed.
 //		removeAllSync(el);
 		removeAll(first, el);
-//		removeAll(first.next, el);
 	}
 
-	public void removeAllSync(E el) {
-		// Remove all firsts
-		while (first != null && el.equals(first.data)) {
+	private void removeAll(Node ref, E el) {
+		// Always check the front of the linked list, although this should
+		// probably be handled in the parent caller, but from the prompt and
+		// Piazza discussion I think this belongs here for this assignment?
+		if (first != null && first.data.equals(el)) {
 			first = first.next;
 			n--;
 		}
 
-		if (first == null) // Could be empty list after removing firsts
-			return;
-
-		// Remove a Node the follows first
-		Node ref = first;
-		while (ref.next != null) {
-
-			if (el.equals(ref.next.data)) {
+		if (ref != null && ref.next != null) {
+			if (ref.next.data.equals(el)) {
 				ref.next = ref.next.next;
 				n--;
-
-			} else
-				ref = ref.next;
-
-		}
-	}
-
-	private void removeAll(Node ref, E el) {
-//		System.out.println("Node = [value: " + ref.data + ", " + ref.next + "]");
-		// check if the first one contains the target data:
-//		if (first != null && first.data.equals(el)) {
-//			first = first.next;
-//			n--;
-//			removeAll(first.next, el);
-//		}
-
-		if (ref != null) {
-//			System.out.println("Node = [value: " + ref.data + "]");
-
-			if (ref.data.equals(el)) {
-				ref = ref.next;
-				n--;
+				removeAll(ref, el); // stay here and check again for repeats
 			}
+			removeAll(ref.next, el); // move to the right
 		}
-		
-		if (ref.next != null) {
-			removeAll(ref.next, el);
-
-		}
-
 	}
 
 	// Duplicate el next to each occurrence of el in this list.

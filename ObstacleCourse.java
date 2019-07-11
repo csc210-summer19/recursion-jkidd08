@@ -105,7 +105,7 @@ public class ObstacleCourse {
 				}
 			}
 		}
-		
+
 		if (escaped) {
 			course[row][col] = PART_OF_PATH;
 
@@ -116,11 +116,11 @@ public class ObstacleCourse {
 
 	private boolean onBorder(int row, int col) {
 		// TODO Auto-generated method stub
-		
+
 		if (row == 0 || col == 0 || row == sizeY - 1 || col == sizeX - 1) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
