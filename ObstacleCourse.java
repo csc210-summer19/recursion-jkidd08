@@ -13,6 +13,8 @@ public class ObstacleCourse {
 	private int sCol;
 	private int foundRow;
 	private int foundCol;
+	private int sizeX;
+	private int sizeY;
 
 	// Constants (or you could use 'O' and '.' directly)
 	private static final char PART_OF_PATH = 'O';
@@ -25,6 +27,8 @@ public class ObstacleCourse {
 		this.sRow = sRow;
 		this.sCol = sCol;
 		this.course = course;
+		this.sizeX = course[0].length;
+		this.sizeY = course.length;
 
 		// The default values in case there is no exit.
 		foundRow = -1;
@@ -73,12 +77,51 @@ public class ObstacleCourse {
 	 * and col where the exit was found
 	 */
 	private boolean findExit(int row, int col) {
-		// TODO: Complete this method
 		//
 		// Do not forget to set the instance variable foundRow and
 		// foundCol in this method when the exit is found.
 		//
-		return !false;
+		boolean escaped = false;
+		if (course[row][col] == ' ') {
+			// position is legal
+			course[row][col] = TRIED;
+
+			if (onBorder(row, col)) {
+				// position is on the border, we are free
+				escaped = true;
+				foundRow = row;
+				foundCol = col;
+			} else {
+				// position is not on the border:
+				escaped = findExit(row + 1, col);
+				if (!escaped) {
+					escaped = findExit(row, col + 1);
+				}
+				if (!escaped) {
+					escaped = findExit(row - 1, col);
+				}
+				if (!escaped) {
+					escaped = findExit(row, col - 1);
+				}
+			}
+		}
+		
+		if (escaped) {
+			course[row][col] = PART_OF_PATH;
+
+		}
+
+		return escaped;
+	}
+
+	private boolean onBorder(int row, int col) {
+		// TODO Auto-generated method stub
+		
+		if (row == 0 || col == 0 || row == sizeY - 1 || col == sizeX - 1) {
+			return true;
+		}
+		
+		return false;
 	}
 
 }

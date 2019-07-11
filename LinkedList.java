@@ -108,7 +108,7 @@ public class LinkedList<E extends Comparable<E>> {
 	private E get(Node ref, int startIndex, int stopIndex) {
 		if (startIndex == stopIndex) {
 			return ref.data;
-		} else { 
+		} else {
 			return get(ref.next, startIndex + 1, stopIndex);
 		}
 	}
@@ -118,20 +118,57 @@ public class LinkedList<E extends Comparable<E>> {
 	public void removeAll(E el) {
 		// This public method requires a call to a private helper method
 		// with first as an argument. It must be recursive, no loop allowed.
+//		removeAllSync(el);
 		removeAll(first, el);
+//		removeAll(first.next, el);
 	}
-	
+
+	public void removeAllSync(E el) {
+		// Remove all firsts
+		while (first != null && el.equals(first.data)) {
+			first = first.next;
+			n--;
+		}
+
+		if (first == null) // Could be empty list after removing firsts
+			return;
+
+		// Remove a Node the follows first
+		Node ref = first;
+		while (ref.next != null) {
+
+			if (el.equals(ref.next.data)) {
+				ref.next = ref.next.next;
+				n--;
+
+			} else
+				ref = ref.next;
+
+		}
+	}
+
 	private void removeAll(Node ref, E el) {
 //		System.out.println("Node = [value: " + ref.data + ", " + ref.next + "]");
+		// check if the first one contains the target data:
+//		if (first != null && first.data.equals(el)) {
+//			first = first.next;
+//			n--;
+//			removeAll(first.next, el);
+//		}
+
 		if (ref != null) {
-			System.out.println("Node = [value: " + ref.data + "]");
-			if (ref.data == el) {
+//			System.out.println("Node = [value: " + ref.data + "]");
+
+			if (ref.data.equals(el)) {
 				ref = ref.next;
-			} else {
-				removeAll(ref.next, el);
+				n--;
 			}
 		}
 		
+		if (ref.next != null) {
+			removeAll(ref.next, el);
+
+		}
 
 	}
 
@@ -140,9 +177,9 @@ public class LinkedList<E extends Comparable<E>> {
 		// This public method requires a call to a private helper method
 		// with first as an argument. It must be recursive, no loop allowed.
 		duplicateAll(first, el);
-		
+
 	}
-	
+
 	private void duplicateAll(Node ref, E el) {
 		if (ref != null) {
 			if (ref.data == el) {
